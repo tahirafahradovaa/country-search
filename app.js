@@ -1,13 +1,13 @@
 const select = document.querySelector("select");
 const container = document.querySelector(".container");
 const input = document.querySelector("input");
+let isChoosen = false;
 
 const getCountry = async () => {
   const res = await axios.get("https://restcountries.com/v3.1/all");
   const data = res.data;
   filling(data);
 };
-let isChoosen = false;
 
 const fillPage = (src, country, pop, region, capital) => {
   const card = document.createElement("div");
@@ -31,7 +31,6 @@ const fillPage = (src, country, pop, region, capital) => {
   <p>Region: <span class="region">${region}</span></p>
   <p class='capName'>Capital: <span class="capital">${capital}</span></p>
   </div>`;
-
   newA.appendChild(card);
   container.appendChild(newA);
 };
@@ -39,10 +38,12 @@ const fillPage = (src, country, pop, region, capital) => {
 input.addEventListener("input", async () => {
   container.innerHTML = "";
   let countryName = input.value.trim(" ").toLocaleLowerCase();
-  if (countryName === "") {
+  if (countryName === "" && isChoosen === false) {
     container.innerHTML = "";
     getCountry();
   } else if (isChoosen) {
+    regionSearch();
+  } else if (isChoosen === true && countryName === "") {
     regionSearch();
   } else if (regArr.length === 0) {
     const res = await axios.get(
@@ -77,10 +78,18 @@ const getRegion = async (region) => {
   return regArr;
 };
 select.addEventListener("change", (e) => {
-  container.innerHTML = "";
-  const regionName = e.target.value;
-  isChoosen = true;
-  getRegion(regionName);
+  if (!isChoosen) {
+    container.innerHTML = "";
+    const regionName = e.target.value;
+    isChoosen = true;
+    getRegion(regionName);
+  } else {
+    regArr = [];
+    container.innerHTML = "";
+    const regionName = e.target.value;
+    isChoosen = true;
+    getRegion(regionName);
+  }
 });
 const regionSearch = () => {
   regArr.forEach((country) => {

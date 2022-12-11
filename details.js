@@ -19,7 +19,6 @@ const getCountry = async (countryName) => {
   }
 
   filling(data);
-  //   let native = res.data[0].name.nativeName;
 };
 
 function filling(data) {
