@@ -83,6 +83,9 @@ select.addEventListener("change", (e) => {
     const regionName = e.target.value;
     isChoosen = true;
     getRegion(regionName);
+  } else if (e.target.value === "placeholder") {
+    container.innerHTML = "";
+    getCountry();
   } else {
     regArr = [];
     container.innerHTML = "";
