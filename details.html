@@ -12,7 +12,14 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="details.css" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"
       integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA=="
@@ -26,19 +33,14 @@
         <h2>Where In The World</h2>
       </header>
       <hr />
-      <input type="text" placeholder="Search for a country" />
-      <button class="fa fa-search"></button>
-      <select name="region" id="region">
-        <option value="placeholder">Filter By Region</option>
-        <option value="africa">Africa</option>
-        <option value="america">America</option>
-        <option value="asia">Asia</option>
-        <option value="europe">Europe</option>
-        <option value="oceania">Oceania</option>
-      </select>
-      <section class="container"></section>
+      <a class="fa fa-arrow-left" href="index.html"> Back</a>
+      <div id="detailContainer" class="container"></div>
+      <div class="borders">
+        <h2>Borders With:</h2>
+        <div class="border-name"></div>
+      </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="details.js"></script>
   </body>
 </html>

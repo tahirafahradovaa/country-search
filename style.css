@@ -19,6 +19,10 @@ input{
     width: 300px;
     font-family: 'Poppins', sans-serif;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 button{
     padding: 12px 20px;
     margin-left:-60px;
@@ -71,6 +75,12 @@ img{
 }
 span{
     font-weight: 300;
+}
+#detailContainer{
+display: flex;
+}
+#detailContainer>img{
+    400px
 }
 @media (max-width:400px){
     .container{

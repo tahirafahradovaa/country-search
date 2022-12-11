@@ -1,35 +1,50 @@
+const select = document.querySelector("select");
+const container = document.querySelector(".container");
+const input = document.querySelector("input");
+
 const getCountry = async () => {
   const res = await axios.get("https://restcountries.com/v3.1/all");
   const data = res.data;
   filling(data);
 };
+let isChoosen = false;
 
-const container = document.querySelector(".container");
-const input = document.querySelector("input");
 const fillPage = (src, country, pop, region, capital) => {
   const card = document.createElement("div");
   if (capital === undefined) {
     capital = "";
   }
   card.classList.add("card");
+  const newA = document.createElement("a");
+  newA.setAttribute("value", country);
+  newA.setAttribute("href", "details.html");
+  newA.addEventListener("click", () => {
+    const clickedCountry = newA.getAttribute("value");
+    sessionStorage.setItem("country", clickedCountry);
+  });
   card.innerHTML = `<div class="img">
   <img src="${src}" alt="" />
-</div>
-<div class="content">
+  </div>
+  <div class="content">
   <h2 class="country">${country}</h2>
   <p>Population: <span class="population">${pop}</span></p>
   <p>Region: <span class="region">${region}</span></p>
   <p class='capName'>Capital: <span class="capital">${capital}</span></p>
-</div>`;
-  container.append(card);
+  </div>`;
+
+  newA.appendChild(card);
+  container.appendChild(newA);
 };
+
 input.addEventListener("input", async () => {
-  let countryName = input.value;
   container.innerHTML = "";
+  let countryName = input.value.trim(" ").toLocaleLowerCase();
   if (countryName === "") {
     container.innerHTML = "";
     getCountry();
-  } else {
+  } else if (isChoosen) {
+    regionSearch();
+  } else if (regArr.length === 0) {
     const res = await axios.get(
       `https://restcountries.com/v3.1/name/${countryName}`
     );
@@ -48,6 +63,7 @@ function filling(data) {
     fillPage(source, name, pop, region, capital);
   });
 }
+let regArr = [];
 window.addEventListener("load", getCountry());
 
 const getRegion = async (region) => {
@@ -56,12 +72,22 @@ const getRegion = async (region) => {
     `https://restcountries.com/v3.1/region/${region}`
   );
   const data = res.data;
+  regArr.push(data);
   filling(data);
-  console.log(res, " res");
-  console.log(data, " data");
+  return regArr;
 };
-const select = document.querySelector("select");
 select.addEventListener("change", (e) => {
+  container.innerHTML = "";
   const regionName = e.target.value;
+  isChoosen = true;
   getRegion(regionName);
 });
+const regionSearch = () => {
+  regArr.forEach((country) => {
+    let inputValue = input.value;
+    let countryNameCap =
+      inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+    let filters = country.filter((q) => q.name.common.includes(countryNameCap));
+    filling(filters);
+  });
+};
